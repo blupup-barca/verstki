@@ -1,16 +1,16 @@
-from django.http import HttpResponse
 from django.shortcuts import render
 
-
-def home(request) -> HttpResponse:
-    """
-    Функция возвращает страницу home.html.
-    """
-    return render(request, 'catalog/home.html')
+from catalog.models import Product
+from django.shortcuts import get_object_or_404
 
 
-def contacts(request) -> HttpResponse:
-    """
-    Функция возвращает страницу contacts.html.
-    """
-    return render(request, 'catalog/contacts.html')
+def product_list(request):
+    product = Product.objects.all()
+    context = {"product": product}
+    return render(request, 'product_list.html', context)
+
+
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    context = {"product": product}
+    return render(request, 'product_detail.html', context)
