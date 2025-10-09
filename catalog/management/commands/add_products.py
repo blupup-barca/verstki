@@ -3,22 +3,37 @@ from catalog.models import Category, Product
 
 
 class Command(BaseCommand):
-    help = 'Add test products to the database'
+    help = "Add test products to the database"
 
     def handle(self, *args, **options):
         Category.objects.all().delete()
         Product.objects.all().delete()
 
-        category, _ = Category.objects.get_or_create(name='Смартфоны', description='Категория, содержащая смартфоны')
+        category, _ = Category.objects.get_or_create(
+            name="Смартфоны", description="Категория, содержащая смартфоны"
+        )
 
         products = [
-            {'name': 'Айфон', 'description': 'Флагман последнего поколения', 'price': 4555, 'category': category},
-            {'name': 'Гэлекси 25', 'description': 'Флагман от Самсунг',
-             'price': 25624, 'category': category}
+            {
+                "name": "Айфон",
+                "description": "Флагман последнего поколения",
+                "price": 4555,
+                "category": category,
+            },
+            {
+                "name": "Гэлекси 25",
+                "description": "Флагман от Самсунг",
+                "price": 25624,
+                "category": category,
+            },
         ]
         for product_in_data in products:
             product, created = Product.objects.get_or_create(**product_in_data)
             if created:
-                self.stdout.write(self.style.SUCCESS(f'Successfully added product: {product.name}'))
+                self.stdout.write(
+                    self.style.SUCCESS(f"Successfully added product: {product.name}")
+                )
             else:
-                self.stdout.write(self.style.WARNING(f'Product already exists: {product.name}'))
+                self.stdout.write(
+                    self.style.WARNING(f"Product already exists: {product.name}")
+                )
