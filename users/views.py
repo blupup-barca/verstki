@@ -1,5 +1,3 @@
-
-
 from django.urls import reverse_lazy
 from .forms import UserRegisterForm
 from django.views.generic import CreateView

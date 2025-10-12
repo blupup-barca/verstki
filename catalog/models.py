@@ -1,4 +1,4 @@
-
+from users.models import User
 from django.db import models
 
 
@@ -23,8 +23,9 @@ class Product(models.Model):
     created_at = models.DateField(verbose_name='дата создания', auto_now_add=True)
     updated_at = models.DateField(verbose_name='дата последнего изменения', auto_now=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
+    owner = models.ForeignKey(User, verbose_name='владелец продукта', blank=True, null=True,
+                              on_delete=models.SET_NULL)
     publication_status = models.BooleanField(default=False, verbose_name='статус публикации')
-
 
     def __str__(self):
         return self.name
@@ -33,3 +34,6 @@ class Product(models.Model):
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
         ordering = ['name', 'price', 'created_at', 'category']
+        permissions = [
+            ('can_unpublish_product', 'Can unpublish product'),
+        ]
